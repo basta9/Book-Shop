@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="lib/bs4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <title>BOOK SHOP</title>
+</head>
+
+<body onload="init()">
+    <header>
+        <img src="img/book-logo.png" alt="">
+        <h1 data-trans='h1'>THE BOOK SHOP</h1>
+    </header>
+    <!-- Button Add Book -->
+    <div id="add-book" class="align">
+        <button type="button" data-trans='add-book' onclick="onOpenAddModal()" class="btn btn-primary" data-toggle="modal"
+            data-target="#addBookModal">
+            Add new Book
+        </button>
+        <select id="langauge" onchange="onSetLang(value)">
+            <option value="en">English</option>
+            <option value="he">עברית</option>
+        </select>
+    </div>
+
+    <section name="book-list">
+        <table class="table table-striped table-hover">
+            <thead>
+                <th>#ID</th>
+                <th onClick="onSortByName()" class="clickable" data-trans="book-title"></th>
+                <th onClick="onSortByPrice()" class="clickable" data-trans="book-price"></th>
+                <th data-trans="book-rating"></th>
+                <th colspan="3" data-trans="book-actions" id="actions"></th>
+            </thead>
+            <tbody id="book-list"></tbody>
+        </table>
+    </section>
+    <div class="paging">
+        <button class="btn btn-secondary" onclick="onPreviousPage()">&laquo;</button>
+        <button class="btn btn-secondary" onclick="onNextPage()">&raquo;</button>
+    </div>
+
+    <!-- Modal Add Book -->
+    <div class="modal fade" id="addBookModal" tabindex="-1" role="dialog" aria-labelledby="addBookModalTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addBookModalCenterTitle" data-trans="book-details"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6 id="book-id-add"></h6>
+                    <div class="input">
+                        <h5 data-trans="book-title"></h5>:
+                        <input type="text" id="book-name" data-target="input-name" placeholder="the bible">
+                    </div>
+                    <div class="input">
+                        <h5 data-trans="book-price"></h5>:
+                        <input type="text" id="book-price-add" placeholder="50$">
+                    </div>
+                    <div class="input">
+                        <h5 data-trans="img-link"></h5>:
+                        <input type="text" id="book-img-add" placeholder="http://..">
+                    </div>
+                    <div>
+                        <h5 data-trans="description"></h5>
+                        <textarea id="book-read-add" cols="50" rows="8"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" data-trans="close">Close</button>
+                    <button type="button" class="btn btn-primary" onClick=" readAndAddNewBook()" data-dismiss="modal"
+                        data-trans="add">ADD</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal update Book -->
+    <div class="modal fade" id="updateBookModal" tabindex="-1" role="dialog" aria-labelledby="updateBookModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateBookModalCenterTitle" data-trans="book-details"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <h6 id="book-id-update"></h6>
+                    <h3 id="book-title"></h3>
+
+                    <h5 data-trans="book-price"></h5>
+                    <input type="text" id="book-price-update" placeholder="Book price">
+                    <div>
+                        <h5 data-trans="description"></h5>
+                        <textarea id="book-read-update" cols="50" rows="8"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" data-trans="close">Close</button>
+                    <button type="button" class="btn btn-primary" onClick="OnupdateBook()" data-dismiss="modal"
+                        data-trans="update">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Read modal -->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <h3 id="book-title-read" class="text-center"></h3>
+                <div id="read-diplay">
+                    <span id="book-img"></span>
+                    <div id="read-desc">
+                        <b data-trans="description" ></b>
+                        <p class="text-center"></p>
+                    </div>
+                </div>
+                <b data-trans="book-rating" class="text-center"></b>
+                <span class="d-none" id="id-holder"></span>
+                <div id="book-rating">
+                    <button onclick="minusBookRating()" class="btn btn-info" id="minus">-</button>
+                    <span></span>
+                    <button onclick="plusBookRating()" class="btn btn-info" id="plus">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <img src="img/Books_Footer.png" id="book-footer">
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="lib/bs4/js/bootstrap.bundle.min.js"></script>
+    <script src="js/service-util.js"></script>
+    <script src="js/service-bookshop.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/i18n-service.js"></script>
+</body>
+
+</html>
